@@ -26,12 +26,11 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 
 class CreateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateBinding
-    lateinit var create_title : EditText
-    lateinit var create_priority : ChipGroup
+    lateinit var create_title: EditText
+    lateinit var create_priority: ChipGroup
     lateinit var tvScheduleDate: TextView
     lateinit var tvScheduleTime: TextView
 
@@ -56,10 +55,9 @@ class CreateActivity : AppCompatActivity() {
             tvCalendar.visibility = View.VISIBLE
         }
 
-        tvCalendar.setOnDateChangeListener(CalendarView.OnDateChangeListener
-        { view, year, month, dayOfMonth ->
-            val date = (dayOfMonth.toString() + "/" + (month + 1) + "/" + year)
-            tvScheduleDate.setText("Schedule: "+date )
+        tvCalendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val date = "$dayOfMonth/${month + 1}/$year"
+            tvScheduleDate.text = "Schedule: $date"
             tvCalendar.visibility = View.GONE
 
             val clock = Calendar.getInstance()
@@ -68,16 +66,27 @@ class CreateActivity : AppCompatActivity() {
 
             val timePicker = TimePickerDialog(
                 this,
-                { view, hourOfDay, minute ->
-                    tvScheduleTime.setText("$hourOfDay:$minute")
+                { _, hourOfDay, minute ->
+                    val formattedHour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay.toString()
+                    val formattedMinute = if (minute < 10) "0$minute" else minute.toString()
+                    tvScheduleTime.text = "$formattedHour:$formattedMinute"
                 }, hour, minute, false
             )
+
+            timePicker.setOnDismissListener {
+                // Check if time has been selected
+                if (tvScheduleTime.text.isNullOrEmpty()) {
+                    // Handle if no time has been selected
+                    // For example, you can display a message to the user or set a default time
+                }
+            }
+
             timePicker.show()
-        })
+        }
 
         val sdf = SimpleDateFormat("'Date : 'dd-MM-yyyy ' Time : 'HH:mm ")
-        val currentTime = sdf.format(Date())
-        tvTime.text = "Created on: " + currentTime
+        val currentTime = sdf.format(java.util.Date())
+        tvTime.text = "Created on: $currentTime"
 
         btn_save.setOnClickListener {
             val dbHandler = DatabaseHelper(this, null)
@@ -141,10 +150,12 @@ class CreateActivity : AppCompatActivity() {
             .show()
     }
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SimpleDateFormat")
     private fun calculateScheduledTimeMillis(): Long {
-        val minute = tvScheduleTime.text.toString().split(":")[1].toInt()
-        val hour = tvScheduleTime.text.toString().split(":")[0].toInt()
+        val timeParts = tvScheduleTime.text.toString().split(":")
+        val hour = timeParts[0].toIntOrNull() ?: 0
+        val minute = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
+
         val selectedDateMillis = binding.tvCalendar.date
 
         val calendar = Calendar.getInstance()

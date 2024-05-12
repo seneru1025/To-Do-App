@@ -16,7 +16,8 @@
         android:layout_marginTop="28dp"
         android:text="Create Task"
         android:textColor="@color/white"
-        android:textSize="23sp"
+        android:textSize="26sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +37,7 @@
             android:layout_width="312dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
-            android:hint="Task"
+            android:hint="Task Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:fontFamily="@font/allerta_stencil"
             android:text="Priority:"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -118,12 +120,15 @@
             android:id="@+id/tvSchedule"
             android:layout_width="258dp"
             android:layout_height="wrap_content"
-            android:text="Schedule"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/allerta_stencil"
+            android:text="Schedule:"
             android:textColor="@color/black"
-            android:textSize="23sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvClock"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvClock" />
+            app:layout_constraintTop_toTopOf="@+id/tvClock"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvClock"
@@ -139,8 +144,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="41dp"
-            android:layout_height="37dp"
+            android:layout_width="31dp"
+            android:layout_height="29dp"
             android:layout_marginTop="214dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.956"
@@ -161,7 +166,9 @@
             android:id="@+id/tvCalendar"
             android:layout_width="338dp"
             android:layout_height="295dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.686"
             app:layout_constraintStart_toStartOf="parent"
@@ -171,12 +178,14 @@
             android:id="@+id/save_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="564dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/button_background"
             android:text="Save"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.573"
+            app:layout_constraintHorizontal_bias="0.563"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -184,11 +193,14 @@
             android:id="@+id/notify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/button_background"
             android:text="Notify Me!"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/save_button"
+            app:layout_constraintHorizontal_bias="0.465"
             app:layout_constraintStart_toStartOf="@+id/save_button"
             app:layout_constraintTop_toBottomOf="@+id/save_button" />
 

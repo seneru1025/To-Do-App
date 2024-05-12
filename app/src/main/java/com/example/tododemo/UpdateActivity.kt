@@ -58,7 +58,7 @@ class UpdateActivity : AppCompatActivity() {
             tvCalendar.visibility = View.VISIBLE
         }
 
-        tvCalendar.setOnDateChangeListener(CalendarView.OnDateChangeListener { view, year, month, dayOfMonth ->
+        tvCalendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val date = (dayOfMonth.toString() + "/" + (month + 1) + "/" + year)
             tvScheduleDate.setText("Schedule: " + date)
             tvCalendar.visibility = View.GONE
@@ -70,12 +70,14 @@ class UpdateActivity : AppCompatActivity() {
             val timePickerDialog = TimePickerDialog(
                 this,
                 { view, hourOfDay, minute ->
-                    tvScheduleTime.setText("$hourOfDay:$minute")
+                    val formattedHour = if (hourOfDay < 10) "0$hourOfDay" else hourOfDay.toString()
+                    val formattedMinute = if (minute < 10) "0$minute" else minute.toString()
+                    tvScheduleTime.setText("$formattedHour:$formattedMinute")
                 },
                 hour, minute, false
             )
             timePickerDialog.show()
-        })
+        }
 
         val task = intent.getStringExtra("task")
         val priority = intent.getStringExtra("priority")
@@ -164,8 +166,9 @@ class UpdateActivity : AppCompatActivity() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun calculateScheduledTimeMillis(): Long {
-        val minute = tvScheduleTime.text.toString().split(":")[1].toInt()
-        val hour = tvScheduleTime.text.toString().split(":")[0].toInt()
+        val timeParts = tvScheduleTime.text.toString().split(":")
+        val hour = timeParts[0].toIntOrNull() ?: 0
+        val minute = timeParts.getOrNull(1)?.toIntOrNull() ?: 0
         val selectedDateMillis = binding.tvCalendar.date
 
         val calendar = Calendar.getInstance()
